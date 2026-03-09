@@ -1,32 +1,51 @@
-﻿import Link from "next/link";
+﻿"use client";
+
+import Link from "next/link";
+import { useState } from "react";
 import {
   Activity,
   BarChart3,
-  CalendarClock,
+  ChevronDown,
   ClipboardList,
+  FileArchive,
   FilePlus2,
+  FileText,
   LayoutDashboard,
+  LineChart,
   UserRound,
 } from "lucide-react";
 
-type MenuItem = {
+type SubMenuItem = {
   title: string;
   icon: typeof LayoutDashboard;
   isActive: boolean;
   href?: string;
 };
 
-const menuItems: MenuItem[] = [
+const mainMenuItems = [
   {
-    title: "Анкета",
-    icon: ClipboardList,
+    title: "Дашбоард",
+    icon: LayoutDashboard,
     isActive: true,
   },
+  {
+    title: "Статистика",
+    icon: LineChart,
+    isActive: false,
+  },
+  {
+    title: "Отчеты",
+    icon: FileText,
+    isActive: false,
+  },
+] as const;
+
+const formSubMenuItems: SubMenuItem[] = [
   {
     title: "Создать анкету",
     href: "/create-form",
     icon: FilePlus2,
-    isActive: false,
+    isActive: true,
   },
   {
     title: "Список анкет",
@@ -34,8 +53,8 @@ const menuItems: MenuItem[] = [
     isActive: false,
   },
   {
-    title: "Отчеты",
-    icon: CalendarClock,
+    title: "Архив анкет",
+    icon: FileArchive,
     isActive: false,
   },
 ];
@@ -63,6 +82,7 @@ const recentEvents = [
 ] as const;
 
 export default function HomePage() {
+  const [isFormMenuOpen, setIsFormMenuOpen] = useState(false);
   const maxAnalyticsValue = Math.max(...analytics.map((item) => item.value));
 
   return (
@@ -81,24 +101,11 @@ export default function HomePage() {
 
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-slate-500">Меню</p>
           <nav className="space-y-2">
-            {menuItems.map((item) => {
+            {mainMenuItems.map((item) => {
               const Icon = item.icon;
               const menuClass = item.isActive
-                ? "bg-blue-600 text-white shadow-md shadow-blue-200"
+                ? "bg-blue-600 text-white shadow-md shadow-slate-200"
                 : "bg-slate-50 text-slate-700 hover:bg-slate-100";
-
-              if (item.href) {
-                return (
-                  <Link
-                    key={item.title}
-                    href={item.href}
-                    className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${menuClass}`}
-                  >
-                    <Icon size={16} />
-                    {item.title}
-                  </Link>
-                );
-              }
 
               return (
                 <button
@@ -111,6 +118,56 @@ export default function HomePage() {
                 </button>
               );
             })}
+
+            <button
+              type="button"
+              onClick={() => setIsFormMenuOpen((prev) => !prev)}
+              className="flex w-full items-center justify-between rounded-xl  px-3 py-2.5 text-left text-sm font-medium transition"
+            >
+              <span className="flex items-center gap-3">
+                <ClipboardList size={16} />
+                Анкета
+              </span>
+              <ChevronDown
+                size={16}
+                className={`transition-transform ${isFormMenuOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+
+            {isFormMenuOpen && (
+              <div className="ml-3 space-y-2 border-l-2 border-blue-100 pl-3">
+                {formSubMenuItems.map((item) => {
+                  const Icon = item.icon;
+                  const menuClass = item.isActive
+                    ? "bg-blue-100 text-blue-800"
+                    : "bg-slate-50 text-slate-700 hover:bg-slate-100";
+
+                  if (item.href) {
+                    return (
+                      <Link
+                        key={item.title}
+                        href={item.href}
+                        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition ${menuClass}`}
+                      >
+                        <Icon size={16} />
+                        {item.title}
+                      </Link>
+                    );
+                  }
+
+                  return (
+                    <button
+                      key={item.title}
+                      type="button"
+                      className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium transition ${menuClass}`}
+                    >
+                      <Icon size={16} />
+                      {item.title}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </nav>
         </aside>
 
@@ -123,7 +180,7 @@ export default function HomePage() {
               Анкета
             </h1>
             <p className="mt-2 text-sm text-slate-600 sm:text-base">
-              Выберите нужный раздел: создать анкету, открыть список анкет или посмотреть отчеты.
+              Выберите нужный раздел: создать анкету, открыть список анкет или посмотреть архив.
             </p>
           </header>
 
