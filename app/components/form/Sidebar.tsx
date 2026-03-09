@@ -164,7 +164,7 @@ export function Sidebar({
       <div className="bg-blue-50 rounded-2xl border border-blue-100 p-4">
         <p className="text-xs text-blue-700 leading-relaxed">
           <span className="block mb-1 text-blue-800">💡 Подсказка</span>
-          Поля, отмеченные <span className="text-amber-500">*</span>, обязательны для заполнения. Раздел становится{' '}
+          Поля, отмеченные <span className="text-red-500">*</span>, обязательны для заполнения. Раздел становится{' '}
           <span className="text-green-600">зелёным</span>, когда все обязательные поля заполнены.
         </p>
       </div>

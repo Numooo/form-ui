@@ -383,7 +383,7 @@ export default function App() {
                     <h1 className="text-gray-900 mb-1">Анкета заявителя</h1>
                     <p className="text-sm text-gray-500">
                         Пожалуйста, заполните все поля, отмеченные{' '}
-                        <span className="text-amber-500">*</span>. Остальные поля — по желанию.
+                        <span className="text-red-500">*</span>. Остальные поля — по желанию.
                     </p>
                     {showErrors && missingCount > 0 && (
                         <div className="mt-3 flex items-center gap-2 px-4 py-2.5 bg-red-50 border border-red-100 rounded-xl text-sm text-red-600">
@@ -512,13 +512,14 @@ export default function App() {
                         {sections.map((section) => {
                             const status = sectionStatuses[section.id];
                             const requiredFields = section.fields.filter((f) => f.required);
+                            const missingRequiredCount = requiredFields.filter((f) => {
+                                const val = values[f.id] ?? (f.type === 'checkbox' ? false : '');
+                                if (typeof val === 'boolean') return !val;
+                                return !(typeof val === 'string' && val.trim() !== '');
+                            }).length;
                             const isRequiredFilled =
                                 requiredFields.length > 0 &&
-                                requiredFields.every((f) => {
-                                    const val = values[f.id] ?? (f.type === 'checkbox' ? false : '');
-                                    if (typeof val === 'boolean') return val;
-                                    return typeof val === 'string' && val.trim() !== '';
-                                });
+                                missingRequiredCount === 0;
                             const SectionIcon =
                                 sectionIcons[section.id as keyof typeof sectionIcons] ?? CircleHelp;
 
@@ -536,16 +537,16 @@ export default function App() {
                                         : status === 'success'
                                             ? 'bg-green-50 text-green-700 hover:bg-green-100'
                                             : status === 'error'
-                                                ? 'bg-red-50 text-red-600 hover:bg-red-100'
+                                                ? 'bg-amber-50 text-[#fc9a29] hover:bg-amber-100'
                                                 : 'bg-gray-50 text-gray-600 hover:bg-gray-100'
                                     }
                   `}
                                 >
                                     <SectionIcon size={13} />
                                     <span className="hidden sm:inline">{section.title}</span>
-                                    {status === 'error' && (
-                                        <AlertCircle size={11} className="text-red-400" />
-                                    )}
+                                    <span className="rounded-full bg-[#fc9a29] text-white text-[10px] leading-none px-1.5 py-1">
+                                        {missingRequiredCount}
+                                    </span>
                                 </button>
                             );
                         })}

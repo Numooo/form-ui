@@ -22,14 +22,17 @@ const baseInput =
   'w-full rounded-lg border px-3 py-2.5 text-sm transition-all duration-150 outline-none bg-white placeholder:text-gray-400';
 const normalInput =
   'border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10';
+const requiredInput =
+  'border-[#fc9a29] bg-[#fc9a29]/10 focus:border-[#fc9a29] focus:ring-2 focus:ring-[#fc9a29]/20';
 const errorInput =
   'border-red-400 bg-red-50/40 focus:border-red-500 focus:ring-2 focus:ring-red-500/10';
 const successInput =
   'border-green-400 focus:border-green-500 focus:ring-2 focus:ring-green-500/10';
 
-function getInputClass(error: string | null, success: boolean) {
+function getInputClass(error: string | null, success: boolean, required?: boolean) {
   if (error) return `${baseInput} ${errorInput}`;
   if (success) return `${baseInput} ${successInput}`;
+  if (required) return `${baseInput} ${requiredInput}`;
   return `${baseInput} ${normalInput}`;
 }
 
@@ -41,7 +44,7 @@ export function FieldRenderer({
   onChange,
   onBlur,
 }: FieldRendererProps) {
-  const inputClass = getInputClass(error, showSuccess);
+  const inputClass = getInputClass(error, showSuccess, field.required);
   const strValue = typeof value === 'string' ? value : '';
   const boolValue = typeof value === 'boolean' ? value : false;
   const w = widthClass[field.width ?? 'full'];
@@ -61,7 +64,9 @@ export function FieldRenderer({
                 ? 'bg-blue-600 border-blue-600'
                 : error
                   ? 'border-red-400 bg-red-50/40'
-                  : 'border-gray-300 group-hover:border-blue-400'
+                  : field.required
+                    ? 'border-[#fc9a29] bg-[#fc9a29]/10 group-hover:border-[#fc9a29]'
+                    : 'border-gray-300 group-hover:border-blue-400'
               }
             `}
           >
@@ -92,7 +97,7 @@ export function FieldRenderer({
           <span className="text-sm text-gray-700 leading-snug pt-px">
             {field.label}
             {field.required && (
-              <span className="text-amber-500 ml-1">*</span>
+              <span className="text-red-500 ml-1">*</span>
             )}
           </span>
         </label>
@@ -117,7 +122,7 @@ export function FieldRenderer({
           <span className="text-sm text-gray-700">
             {field.label}
           </span>
-          {field.required && <span className="text-amber-500 text-sm">*</span>}
+          {field.required && <span className="text-red-500 text-sm">*</span>}
         </div>
         <div className="flex flex-wrap gap-2">
           {field.options?.map((opt) => {
@@ -131,13 +136,21 @@ export function FieldRenderer({
                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                     : error
                       ? 'border-red-200 hover:border-red-300 text-gray-700'
-                      : 'border-gray-200 hover:border-blue-300 text-gray-700 hover:bg-gray-50'
+                      : field.required
+                        ? 'border-[#fc9a29]/70 hover:border-[#fc9a29] text-gray-700 bg-[#fc9a29]/10'
+                        : 'border-gray-200 hover:border-blue-300 text-gray-700 hover:bg-gray-50'
                   }
                 `}
               >
                 <div
                   className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
-                    checked ? 'border-blue-500' : error ? 'border-red-300' : 'border-gray-300'
+                    checked
+                      ? 'border-blue-500'
+                      : error
+                        ? 'border-red-300'
+                        : field.required
+                          ? 'border-[#fc9a29]'
+                          : 'border-gray-300'
                   }`}
                 >
                   {checked && (
@@ -281,7 +294,7 @@ function FieldLabel({ field }: { field: FieldConfig }) {
   return (
     <label htmlFor={field.id} className="flex items-center gap-1 text-sm text-gray-700 select-none">
       {field.label}
-      {field.required && <span className="text-amber-500">*</span>}
+      {field.required && <span className="text-red-500">*</span>}
     </label>
   );
 }
