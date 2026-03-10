@@ -48,6 +48,7 @@ export function FieldRenderer({
   const strValue = typeof value === 'string' ? value : '';
   const boolValue = typeof value === 'boolean' ? value : false;
   const w = widthClass[field.width ?? 'full'];
+  const hasSelectedOption = strValue.trim() !== '';
 
   // ── Checkbox ───────────────────────────────────────────────────────────────
   if (field.type === 'checkbox') {
@@ -133,10 +134,10 @@ export function FieldRenderer({
                 className={`
                   flex items-center gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-all duration-150 text-sm
                   ${checked
-                    ? 'border-blue-500 bg-blue-50 text-blue-700'
+                    ? 'border-green-500 bg-green-50 text-green-700'
                     : error
                       ? 'border-red-200 hover:border-red-300 text-gray-700'
-                      : field.required
+                      : field.required && !hasSelectedOption
                         ? 'border-[#fc9a29]/70 hover:border-[#fc9a29] text-gray-700 bg-[#fc9a29]/10'
                         : 'border-gray-200 hover:border-blue-300 text-gray-700 hover:bg-gray-50'
                   }
@@ -145,16 +146,16 @@ export function FieldRenderer({
                 <div
                   className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                     checked
-                      ? 'border-blue-500'
+                      ? 'border-green-500'
                       : error
                         ? 'border-red-300'
-                        : field.required
+                        : field.required && !hasSelectedOption
                           ? 'border-[#fc9a29]'
                           : 'border-gray-300'
                   }`}
                 >
                   {checked && (
-                    <div className="w-2 h-2 rounded-full bg-blue-500" />
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
                   )}
                 </div>
                 <input
