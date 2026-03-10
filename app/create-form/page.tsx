@@ -11,14 +11,14 @@ import {
     Menu,
     X,
     ChevronRight,
-    UserRound,
-    IdCard,
-    Phone,
-    House,
-    GraduationCap,
-    BriefcaseBusiness,
-    Wallet,
-    FileText,
+    FileBadge2,
+    PackageCheck,
+    Truck,
+    MapPinned,
+    Files,
+    BadgeDollarSign,
+    Landmark,
+    ShieldCheck,
     CircleHelp,
 } from 'lucide-react';
 import { sections, validateField, getAllRequiredFields } from '../components/form/formConfig';
@@ -28,14 +28,14 @@ import { Sidebar } from '../components/form/Sidebar';
 type SectionStatus = 'default' | 'success' | 'error';
 
 const sectionIcons = {
-    personal: UserRound,
-    passport: IdCard,
-    contact: Phone,
-    address: House,
-    education: GraduationCap,
-    employment: BriefcaseBusiness,
-    financial: Wallet,
-    additional: FileText,
+    personal: FileBadge2,
+    passport: PackageCheck,
+    contact: Truck,
+    address: MapPinned,
+    education: Files,
+    employment: BadgeDollarSign,
+    financial: Landmark,
+    additional: ShieldCheck,
 } as const;
 
 export default function App() {
@@ -229,23 +229,23 @@ export default function App() {
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <CheckCircle2 size={40} className="text-green-500" />
                     </div>
-                    <h1 className="text-gray-900 mb-3">Заявка успешно отправлена!</h1>
+                    <h1 className="text-gray-900 mb-3">Данные на таможенное оформление отправлены</h1>
                     <p className="text-sm text-gray-500 mb-8 leading-relaxed">
-                        Спасибо! Ваша анкета получена. Наш специалист свяжется с вами
-                        в ближайшее рабочее время.
+                        Форма получена. Специалист проверит комплект данных и свяжется с вами
+                        по вопросам оформления груза.
                     </p>
                     <div className="bg-gray-50 rounded-2xl p-4 text-left space-y-2 mb-8">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                             <CheckCircle2 size={14} className="text-green-500 flex-shrink-0" />
-                            <span>Анкета принята в обработку</span>
+                            <span>Форма передана в обработку</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                             <CheckCircle2 size={14} className="text-green-500 flex-shrink-0" />
-                            <span>Данные проверены и сохранены</span>
+                            <span>Данные по грузу сохранены</span>
                         </div>
                         <div className="flex items-center gap-2 text-sm text-gray-600">
                             <CheckCircle2 size={14} className="text-green-500 flex-shrink-0" />
-                            <span>Ожидайте обратный звонок</span>
+                            <span>Ожидайте уточнение по документам</span>
                         </div>
                     </div>
                     <button
@@ -257,7 +257,7 @@ export default function App() {
                         }}
                         className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm transition-colors"
                     >
-                        Заполнить новую заявку
+                        Заполнить новую форму
                     </button>
                 </div>
             </div>
@@ -289,7 +289,7 @@ export default function App() {
               </Link>
                             <ChevronRight size={14} className="text-gray-300 flex-shrink-0" />
               <span className="text-sm text-gray-900 truncate">
-                Анкета заявителя
+                Таможенная форма
               </span>
                             {activeSection && (
                                 <>
@@ -385,7 +385,7 @@ export default function App() {
             <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
                 {/* Page title area */}
                 <div className="mb-6">
-                    <h1 className="text-gray-900 mb-1">Анкета заявителя</h1>
+                    <h1 className="text-gray-900 mb-1">Форма для таможенного оформления</h1>
                     <p className="text-sm text-gray-500">
                         Пожалуйста, заполните все поля, отмеченные{' '}
                         <span className="text-red-500">*</span>. Остальные поля — по желанию.
@@ -489,7 +489,7 @@ export default function App() {
                     `}
                                     >
                                         <Send size={15} />
-                                        Отправить заявку
+                                        Отправить форму
                                     </button>
                                 </div>
                             </div>

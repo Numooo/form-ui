@@ -3,14 +3,14 @@ import {
   ChevronDown,
   CheckCircle2,
   AlertCircle,
-  UserRound,
-  IdCard,
-  Phone,
-  House,
-  GraduationCap,
-  BriefcaseBusiness,
-  Wallet,
-  FileText,
+  FileBadge2,
+  PackageCheck,
+  Truck,
+  MapPinned,
+  Files,
+  BadgeDollarSign,
+  Landmark,
+  ShieldCheck,
   CircleHelp,
 } from 'lucide-react';
 import { SectionConfig, validateField } from './formConfig';
@@ -32,14 +32,14 @@ interface FormSectionProps {
 }
 
 const sectionIcons = {
-  personal: UserRound,
-  passport: IdCard,
-  contact: Phone,
-  address: House,
-  education: GraduationCap,
-  employment: BriefcaseBusiness,
-  financial: Wallet,
-  additional: FileText,
+  personal: FileBadge2,
+  passport: PackageCheck,
+  contact: Truck,
+  address: MapPinned,
+  education: Files,
+  employment: BadgeDollarSign,
+  financial: Landmark,
+  additional: ShieldCheck,
 } as const;
 
 export function FormSection({
